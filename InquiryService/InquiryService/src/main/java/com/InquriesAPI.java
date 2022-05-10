@@ -7,9 +7,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Servlet implementation class InquriesAPI
- */
+
+
+@WebServlet("/InquriesAPI")
 public class InquriesAPI extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
