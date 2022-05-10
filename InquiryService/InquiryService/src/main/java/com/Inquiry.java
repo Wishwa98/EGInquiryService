@@ -83,6 +83,46 @@ public class Inquiry {
 					return output;
 				}
 		
+		//Create Insert method
+				
+				public String insertInquiry(String title,String description, String contact) {
+					String output ="";
+					
+					try 
+					{
+						Connection con = connect();
+						
+						if(con ==null)
+						{
+							return "Error while connecting to the database for inserting.";
+						}
+						
+						//creating prepared statement
+						String query = "insert into inquiry (`inquiryID`,`inquiryTitle`,`inquiryDesc`,`contactNum`)"+" values (?,?,?,?)";
+						
+						PreparedStatement preparedStmt =con.prepareStatement(query);
+						
+						//binding values
+						preparedStmt.setInt(1, 0);
+						preparedStmt.setString(2, title);
+						preparedStmt.setString(3, description);
+						preparedStmt.setString(4, contact);
+						
+						//execute the statements
+						preparedStmt.execute();
+						con.close();
+						
+						String newInquries = readInquiries();
+						output = "{\"status\":\"success\", \"data\": \"" + newInquries + "\"}";
+					}
+					catch(Exception e) {
+						output = "{\"status\":\"error\", \"data\":\"Error while inserting the inquiry.\"}";
+						System.err.println(e.getMessage());
+					}
+					
+					return output;
+					
+				}
 		
 		
 		
