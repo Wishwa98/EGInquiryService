@@ -123,9 +123,53 @@ public class Inquiry {
 					return output;
 					
 				}
+				
+				
+				
+				//Update inquiry method
+				
+				public String updateInquiry(String ID,String title, String description,String contact) {
+					String output ="";
+					
+					
+					try 
+					{
+						Connection con = connect();
+						
+						if(con==null) {
+							return "Error While connecting to the database for updating";
+						}
+						
+						//create prepared statement
+						
+						String query ="UPDATE inquiry set inquiryTitle=?,inquiryDesc=?,contactNum=? WHERE inquiryID=?";
+						
+						PreparedStatement preparedStmt = con.prepareStatement(query);
+						
+						//bind values	
+						preparedStmt.setInt(4, Integer.parseInt(ID));
+						preparedStmt.setString(1, title);
+						preparedStmt.setString(2, description);
+						preparedStmt.setString(3, contact);
+						
+						
+						//execute statement
+						preparedStmt.execute();
+						con.close();
+						
+						String newInquries = readInquiries();
 		
-		
-		
+						output = "{\"status\":\"success\", \"data\": \"" + newInquries + "\"}";
+					}
+					catch(Exception e)
+					{
+						output = "{\"status\":\"error\", \"data\":\"Error while updating the inquiry\"}";
+						System.err.println(e.getMessage());
+					}
+					
+					return output;
+					
+				}
 		
 			
 }
