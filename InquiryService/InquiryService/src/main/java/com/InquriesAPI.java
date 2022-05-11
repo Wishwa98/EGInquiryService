@@ -1,5 +1,4 @@
 package com;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,29 +19,6 @@ public class InquriesAPI extends HttpServlet {
 	
 	Inquiry inquiryObj = new Inquiry();
 	
-	//Convert request parameters to a Map
-	private static Map getParasMap(HttpServletRequest request)
-	{
-	Map<String, String> map = new HashMap<String, String>();
-	try
-	{
-	Scanner scanner = new Scanner(request.getInputStream(), "UTF-8");
-	String queryString = scanner.hasNext() ?
-	scanner.useDelimiter("\\A").next() : "";
-	scanner.close();
-	String[] params = queryString.split("&");
-	for (String param : params)
-	{ String[] p = param.split("=");
-	map.put(p[0], p[1]);
-	}
-	}
-	catch (Exception e)
-	{
-	}
-	return map;
-	}
-	
-       
    
     public InquriesAPI() {
         super();
@@ -65,11 +41,41 @@ public class InquriesAPI extends HttpServlet {
 				response.getWriter().write(output);
 	}
 
+	// Convert request parameters to a Map
+	private static Map getParasMap(HttpServletRequest request)
+	{
+		Map<String, String> map = new HashMap<String, String>();
+		
+		try
+		{
+			
+			Scanner scanner = new Scanner(request.getInputStream(), "UTF-8");
+			String queryString = scanner.hasNext() ?
+			scanner.useDelimiter("\\A").next() : "";
+			scanner.close();
+			String[] params = queryString.split("&");
+			for (String param : params)
+			{
+				
+				String[] p = param.split("=");
+				map.put(p[0], p[1]);
+			}
+		 }
+		  catch (Exception e)
+		 {
+			  
+		 }
+		
+		return map;
+		
+	}
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 				 Map paras = getParasMap(request);
+				 
+				
 				 String output = inquiryObj.updateInquiry(paras.get("hidInquiryIDSave").toString(),
 				 paras.get("InquiryTitle").toString(),
 				 paras.get("InquiryDesc").toString(),

@@ -7,19 +7,25 @@ public class Inquiry {
 	//A common method to connect to the DataBase
 		private Connection connect()
 		 {
-		 Connection con = null;
-		 try
-		 {
-		 Class.forName("com.mysql.jdbc.Driver");
+			Connection con = null;
+		 
+			try
+			{
+				
+				Class.forName("com.mysql.jdbc.Driver");
 
-		 //Details of the database
-		 con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/electrogriddb", "root", "");
-		 }
+				//Details of the database
+				con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/electrogriddb", "root", "");
+			}
 		 catch (Exception e)
-		 {e.printStackTrace();}
-		 return con;
+			{
+			 e.printStackTrace();
+			 }
+
+			 return con;
+
 		 } 
-		
+
 		
 		
 		//read method
@@ -40,8 +46,8 @@ public class Inquiry {
 						output ="<table border ='1'><tr><th>Inquiry Title</th><th>Inquiry Description</th><th>Contact Number</th><th>Update</th><th>Remove</th></tr>";
 						
 						String query = "select * from inquiry";
-						
 						Statement stmt = con.createStatement();
+						
 						ResultSet rs = stmt.executeQuery(query);
 						
 						//go through all the rows in the result set using a while loop
@@ -57,7 +63,7 @@ public class Inquiry {
 							//add to the above created table
 							
 
-							output += "<td>"+inquiryTitle+"</td>";
+							output += "<tr><td>"+inquiryTitle+"</td>";
 							output += "<td>"+inquiryDesc+"</td>";
 							output += "<td>"+contactNum+"</td>";
 							
@@ -98,7 +104,7 @@ public class Inquiry {
 						}
 						
 						//creating prepared statement
-						String query = "insert into inquiry (`inquiryID`,`inquiryTitle`,`inquiryDesc`,`contactNum`)"+" values (?,?,?,?)";
+						String query = "insert into inquiry (`inquiryID`,`inquiryTitle`,`inquiryDesc`,`contactNum`)" + " values (?, ?, ?, ?)";
 						
 						PreparedStatement preparedStmt =con.prepareStatement(query);
 						
@@ -142,16 +148,15 @@ public class Inquiry {
 						
 						//create prepared statement
 						
-						String query ="UPDATE inquiry set inquiryTitle=?,inquiryDesc=?,contactNum=? WHERE inquiryID=?";
+						String query ="UPDATE inquiry SET inquiryTitle=?,inquiryDesc=?,contactNum=? WHERE inquiryID=?";
 						
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						
 						//bind values	
-						preparedStmt.setInt(4, Integer.parseInt(ID));
 						preparedStmt.setString(1, title);
 						preparedStmt.setString(2, description);
 						preparedStmt.setString(3, contact);
-						
+						preparedStmt.setInt(4, Integer.parseInt(ID));
 						
 						//execute statement
 						preparedStmt.execute();
@@ -159,7 +164,8 @@ public class Inquiry {
 						
 						String newInquries = readInquiries();
 		
-						output = "{\"status\":\"success\", \"data\": \"" + newInquries + "\"}";
+						output = "{\"status\":\"success\", \"data\": \"" + 
+								newInquries + "\"}";
 					}
 					catch(Exception e)
 					{
