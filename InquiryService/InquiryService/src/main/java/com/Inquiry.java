@@ -1,6 +1,6 @@
 package com;
 import java.sql.*;
-
+import java.net.*;
 
 public class Inquiry {
 
@@ -136,7 +136,9 @@ public class Inquiry {
 				
 				public String updateInquiry(String ID,String title, String description,String contact) {
 					String output ="";
-					
+					String decodemonTitle =URLDecoder.decode(title);
+					String decodemonDesc = URLDecoder.decode(description);
+					String decodeContact = URLDecoder.decode(contact);
 					
 					try 
 					{
@@ -153,9 +155,9 @@ public class Inquiry {
 						PreparedStatement preparedStmt = con.prepareStatement(query);
 						
 						//bind values	
-						preparedStmt.setString(1, title);
-						preparedStmt.setString(2, description);
-						preparedStmt.setString(3, contact);
+						preparedStmt.setString(1, decodemonTitle);
+						preparedStmt.setString(2, decodemonDesc);
+						preparedStmt.setString(3, decodeContact);
 						preparedStmt.setInt(4, Integer.parseInt(ID));
 						
 						//execute statement

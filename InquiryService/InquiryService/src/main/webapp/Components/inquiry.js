@@ -104,9 +104,9 @@ $(document).on("click", ".btnRemove", function(event)
 $(document).on("click", ".btnUpdate", function(event)
 {
 	$("#hidInquiryIDSave").val($(this).data("inquiryid")); 
-	$("#InquiryTitle").val($(this).closest("tr").find('td:eq(0)').text());
-	$("#InquiryDesc").val($(this).closest("tr").find('td:eq(1)').text());
-	$("#ContactNum").val($(this).closest("tr").find('td:eq(2)').text());
+	$("#InquiryTitle").val((decodeURI($(this).closest("tr").find('td:eq(0)').text())));
+	$("#InquiryDesc").val((decodeURI($(this).closest("tr").find('td:eq(1)').text())));
+	$("#ContactNum").val((decodeURI($(this).closest("tr").find('td:eq(2)').text())));
 	
 });
 
